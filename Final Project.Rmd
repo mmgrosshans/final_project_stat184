@@ -4,10 +4,72 @@ authors: Matthew Grosshans and Aman Arora
 date: December 17, 2019
 output: html_notebook
 ---
+### Packages
+```{r}
+# clean up workspace environment
+rm(list = ls())
+
+# all packages used for the assignment
+library(mosaic)
+library(tidyverse)
+library(DataComputing)
+library(rvest)
+library(xml2)
+```
 
 ### Entering Data
 
 ```{r}
-
-
+page <- "https://www.basketball-reference.com/players/b/bryanko01.html"
+tableList <- page %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+KobeBryant <- tableList[[1]]
+KobeBryant
 ```
+```{r}
+page <- "https://www.basketball-reference.com/players/j/jamesle01.html"
+tableList <- page %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+LebronJames <- tableList[[1]]
+LebronJames
+```
+```{r}
+page <- "https://www.basketball-reference.com/players/j/jordami01.html"
+tableList <- page %>%
+  read_html() %>%
+  html_nodes(css = "table") %>%
+  html_table(fill = TRUE)
+MichaelJordan <- tableList[[1]]
+MichaelJordan
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
