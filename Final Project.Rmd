@@ -5,6 +5,9 @@ date: December 17, 2019
 output: html_notebook
 ---
 
+### Research Question
+Who is the greatest basketball player to ever play, according to statistics?
+
 ### Packages
 
 ```{r}
