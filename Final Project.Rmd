@@ -22,7 +22,7 @@ library(rvest)
 library(lubridate)
 ```
 
-### Entering Data
+### Data Access
 
 ```{r}
 page <- "https://www.basketball-reference.com/players/b/bryanko01.html"
