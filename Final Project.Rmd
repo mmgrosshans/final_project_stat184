@@ -1,6 +1,6 @@
 ---
 title: "Who is the Greatest?"
-authors: Matthew Grosshans and Aman Arora
+authors: "Matthew Grosshans and Aman Arora"
 date: December 17, 2019
 output: html_notebook
 ---
