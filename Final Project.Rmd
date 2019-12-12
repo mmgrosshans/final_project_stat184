@@ -54,11 +54,7 @@ MichaelJordan
 
 
 ```{r}
-ggplot(barGraphHelper(KobeBryant))
 ggplot(data=KobeBryant,aes(x=Age,y=AST ))+geom_bar(stat='identity',position='stack', width=.9) 
-
-  
-
 ```
 
 
