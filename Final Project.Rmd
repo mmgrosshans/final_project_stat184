@@ -20,6 +20,7 @@ library(tidyverse)
 library(DataComputing)
 library(rvest)
 library(lubridate)
+library(dplyr)
 ```
 
 ### Data Access
@@ -52,21 +53,31 @@ MichaelJordan <- tableList[[1]]
 MichaelJordan
 ```
 
-
+###Joining the data tables together
 ```{r}
-inner1 <- merge(KobeBryant, LebronJames, by = "Age")
-inner <- merge(KobeBryant, MichaelJordan, by = "Age")
-inner2 <- merge(LebronJames, MichaelJordan, by = "Age")
+AllPlayers <-
+  left_join(KobeBryant, LebronJames, by='Age') %>%
+                left_join(., MichaelJordan, by='Age') 
 ```
 
+
+### General data wrangling
 ```{r}
-mutate()
+AllPlayers%>%
+  select('3P.x','2P.x','AST.x','3P.y','2P.y','AST.y','3P','2P','AST')
+
+
 
 ```
- 
 
 
+### Reduction Function
+```{r}
+AllPlayers %>%
+  '3P.x' <- as.numeric(as.double('3P.x'))
 
+
+```
 
 
 
