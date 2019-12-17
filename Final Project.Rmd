@@ -6,7 +6,7 @@ output: html_notebook
 ---
 
 ### Research Question
-Who is the greatest basketball player to ever play, according to statistics?
+Who was the better player off the 2000s era, according to statistics?
 
 ### Packages
 
@@ -43,38 +43,33 @@ tableList <- page %>%
 LebronJames <- tableList[[1]]
 LebronJames
 ```
-```{r}
-page <- "https://www.basketball-reference.com/players/j/jordami01.html"
-tableList <- page %>%
-  read_html() %>%
-  html_nodes(css = "table") %>%
-  html_table(fill = TRUE)
-MichaelJordan <- tableList[[1]]
-MichaelJordan
-```
+
 
 ###Joining the data tables together
 ```{r}
 AllPlayers <-
-  left_join(KobeBryant, LebronJames, by='Age') %>%
-                left_join(., MichaelJordan, by='Age') # used left join to combine all 3 data tables together
+  left_join(KobeBryant, LebronJames, by='Age') 
+                
+
+
+# used left join to combine all 2 data tables together
 ```
 
 
 ### General data wrangling
 ```{r}
 AllPlayers%>%
-  select('3P.x','2P.x','AST.x','3P.y','2P.y','AST.y','3P','2P','AST')
+  select('Age','3P.x','2P.x','AST.x','3P.y','2P.y','AST.y')
 
 
 
 ```
 
 
-### Reduction Function
+### Regular expressions
 ```{r}
-AllPlayers %>%
-  '3P.x' <- as.numeric(as.double('3P.x'))
+ AllPlayers %>% 
+      filter(grepl("{20,30}",'Age.y','Age.x', ignore.case = TRUE)) 
 
 
 ```
@@ -90,7 +85,11 @@ AllPlayers %>%
 ```
 
 ### Data Visualization 2
+```{r}
 
+
+
+```
 
 
 
@@ -98,6 +97,10 @@ AllPlayers %>%
 
 ### Data Visualization 3
 
+```{r}
 
+
+
+```
 
 
