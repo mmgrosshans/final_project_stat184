@@ -68,10 +68,8 @@ AllPlayers%>%
 
 ### Regular expressions
 ```{r}
- AllPlayers %>% 
-      filter(grepl("{20,30}",'Age.y','Age.x', ignore.case = TRUE)) 
-
-
+AllPlayers %>% 
+  filter(grepl("19", Age, ignore.case = TRUE)) 
 ```
 ```{r}
 AllPlayers %>% 
