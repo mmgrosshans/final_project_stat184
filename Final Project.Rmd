@@ -6,7 +6,7 @@ output: html_notebook
 ---
 
 ### Research Question
-Who was the better player off the 2000s era, according to statistics?
+Who was the better player between age 19 and 35, LeBron or Kobe, according to statistics?
 
 ### Packages
 
@@ -48,7 +48,7 @@ LebronJames
 ```{r}
 AllPlayers <-
   left_join(KobeBryant, LebronJames, by='Age') 
-AllPlayers                
+  AllPlayers[2:18,]
 
 
 # used left join to combine all 2 data tables together
@@ -82,7 +82,7 @@ AllPlayers %>%
 
 ```{r}
 mod1 <- party::ctree(
-  Age >= "28" ~ PTS.x +PTS.y, 
+  Age >= "19" ~ PTS.x + PTS.y, 
   data = AllPlayers)
 plot(mod1, type="simple")
 
