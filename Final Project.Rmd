@@ -57,7 +57,7 @@ MichaelJordan
 ```{r}
 AllPlayers <-
   left_join(KobeBryant, LebronJames, by='Age') %>%
-                left_join(., MichaelJordan, by='Age') 
+                left_join(., MichaelJordan, by='Age') # used left join to combine all 3 data tables together
 ```
 
 
@@ -80,8 +80,23 @@ AllPlayers %>%
 ```
 
 
+### Data Visualization 1
+
+```{r}
 
 
+
+
+```
+
+### Data Visualization 2
+
+
+
+
+
+
+### Data Visualization 3
 
 
 
