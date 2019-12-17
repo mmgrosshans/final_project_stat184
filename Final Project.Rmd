@@ -24,7 +24,6 @@ library(dplyr)
 ```
 
 ### Data Access
-
 ```{r}
 page <- "https://www.basketball-reference.com/players/b/bryanko01.html"
 tableList <- page %>%
@@ -45,7 +44,7 @@ LebronJames
 ```
 
 
-###Joining the data tables together
+### Joining the Data Tables Together
 ```{r}
 AllPlayers <-
   left_join(KobeBryant, LebronJames, by='Age') 
@@ -56,27 +55,29 @@ AllPlayers
 ```
 
 
-### General data wrangling
+### General Data Wrangling
 ```{r}
 AllPlayers%>%
-  select('Age','3P.x','2P.x','AST.x','3P.y','2P.y','AST.y')
-
-
-
+  select(`Age`,`3P.x`,`2P.x`,`AST.x`,`3P.y`,`2P.y`,`AST.y`)
 ```
 
 
-### Regular expressions
+### Regular Expression
 ```{r}
 AllPlayers %>% 
   filter(grepl("19", Age, ignore.case = TRUE)) 
 ```
+<<<<<<< HEAD
 
+=======
+### Reduction/Transformation Function
+>>>>>>> 1ba9b5f37f83d7c004e67117e1a2f20ca239868e
 ```{r}
 AllPlayers %>% 
   summarise(KobePoints = mean(PTS.x, na.rm = TRUE), 
             LebronPoints = mean(PTS.y, na.rm = TRUE))
 ```
+<<<<<<< HEAD
 ### Spread and gather expression
 
 ```{r}
@@ -92,6 +93,13 @@ AllPlayers <-
 
 
 
+=======
+### 
+```{r}
+PlayersMachine <- 
+  party::ctree(Age == "28" ~ PTS.x + PTS.y, data=AllPlayers)
+```
+>>>>>>> 1ba9b5f37f83d7c004e67117e1a2f20ca239868e
 
 ### Data Visualization 1
 

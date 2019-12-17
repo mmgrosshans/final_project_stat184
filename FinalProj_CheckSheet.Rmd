@@ -43,12 +43,6 @@ output:  html_notebook
 (E) .Rmd Line number(s) for use of reduction and/or transformation functions: 
 
 
-(F) .Rmd Line number(s) for use of user-defined functions: 
-
-
-(G) .Rmd Line number(s) for use of loops and/or control flow: 
-
-
 (H) .Rmd Line number(s) for use of machine learning (not "wrangling" but scored here): 
 
 
