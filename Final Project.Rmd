@@ -97,29 +97,44 @@ plot(mod1, type="simple")
 ### Data Visualization 1
 
 ```{r}
-
-
-
-
+ggplot(data = AllPlayers, aes(x = Age, y = PTS.y, fill = AST.y)) +
+  geom_bar(stat='identity',position='stack', width=.9) 
+```
+```{r}
+ggplot(data = AllPlayers, aes(x = Age, y = PTS.x, fill = AST.x)) +
+  geom_bar(stat='identity',position='stack', width=.9) 
 ```
 
 ### Data Visualization 2
 ```{r}
-
-
-
+ggplot(data = AllPlayers, aes(x = Age, y = PTS.x)) +
+  geom_point() + 
+  stat_smooth(method = loess) 
 ```
 
-
-
-
+```{r}
+ggplot(data = AllPlayers, aes(x = Age, y = PTS.y)) +
+  geom_point() + 
+  stat_smooth(method = loess) 
+```
 
 ### Data Visualization 3
 
 ```{r}
-
-
-
+AllPlayers %>%
+  ggplot(aes(x = Age, y = AST.y)) + 
+  geom_line(aes(y = TRB.y), colour = "red") +
+  geom_bar(stat ='identity', position ='stack', alpha = 0.5) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Rebounds"))
 ```
+
+```{r}
+AllPlayers %>%
+  ggplot(aes(x = Age, y = AST.x)) + 
+  geom_line(aes(y = TRB.x), colour = "red") +
+  geom_bar(stat ='identity', position ='stack', alpha = 0.5) +
+  scale_y_continuous(sec.axis = sec_axis(~., name = "Rebounds"))
+```
+
 
 
