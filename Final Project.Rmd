@@ -67,22 +67,24 @@ AllPlayers%>%
 AllPlayers %>% 
   filter(grepl("19", Age, ignore.case = TRUE)) 
 ```
-<<<<<<< HEAD
 
-=======
-### Reduction/Transformation Function
->>>>>>> 1ba9b5f37f83d7c004e67117e1a2f20ca239868e
+
+###Reduction/Transformation Function
+
 ```{r}
 AllPlayers %>% 
   summarise(KobePoints = mean(PTS.x, na.rm = TRUE), 
             LebronPoints = mean(PTS.y, na.rm = TRUE))
 ```
-<<<<<<< HEAD
+
 ### Spread and gather expression
 
+
 ```{r}
-AllPlayers <- 
-  ctree( == "yes" ~ age + income + sex, data=AllPlayers)
+mod1 <- party::ctree(
+  Age >= "28" ~ PTS.x +PTS.y, 
+  data = AllPlayers)
+plot(mod1, type="simple")
 
 
 
@@ -91,15 +93,6 @@ AllPlayers <-
 
 ```
 
-
-
-=======
-### 
-```{r}
-PlayersMachine <- 
-  party::ctree(Age == "28" ~ PTS.x + PTS.y, data=AllPlayers)
-```
->>>>>>> 1ba9b5f37f83d7c004e67117e1a2f20ca239868e
 
 ### Data Visualization 1
 
