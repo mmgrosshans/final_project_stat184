@@ -6,7 +6,11 @@ output: html_notebook
 ---
 
 ### Research Question
-Who was the better player between age 19 and 35, LeBron or Kobe, according to statistics?
+Who was the better player between the ages of 19 and 35, LeBron or Kobe, according to statistics?
+
+In the past, viewing sports statistics has always been interesting to look at. Websites like ESPN and Basketball Reference easily kept track of these statistics for people to view. Until taking this class, there hasn't really been anyway to compare these to great players that we both have wanted to compare. So now that we have learned how to use these tools in RStudio, we can compare LeBron and Kobe to each other.
+
+We will mainly compare how their points per game (PTS) changes as their age changes. We will also do some comparing with other stats such as assists (AST) and total rebounds (TRB).
 
 ### Packages
 
@@ -23,7 +27,9 @@ library(lubridate)
 library(dplyr)
 ```
 
-### Data Access
+### Data Access and Inspecting
+
+#### Kobe Bryant
 ```{r}
 page <- "https://www.basketball-reference.com/players/b/bryanko01.html"
 tableList <- page %>%
@@ -31,8 +37,9 @@ tableList <- page %>%
   html_nodes(css = "table") %>%
   html_table(fill = TRUE)
 KobeBryant <- tableList[[1]]
-KobeBryant
+head(KobeBryant)
 ```
+#### LeBron James
 ```{r}
 page <- "https://www.basketball-reference.com/players/j/jamesle01.html"
 tableList <- page %>%
@@ -40,101 +47,100 @@ tableList <- page %>%
   html_nodes(css = "table") %>%
   html_table(fill = TRUE)
 LebronJames <- tableList[[1]]
-LebronJames
+head(LebronJames)
 ```
+Data for these players was retrieved from Basketball Reference website, used head() to show a small amount of the table.
 
 
 ### Joining the Data Tables Together
 ```{r}
-AllPlayers <-
-  left_join(KobeBryant, LebronJames, by='Age') 
-  AllPlayers[2:18,]
-
-
-# used left join to combine all 2 data tables together
+BothPlayers <-
+  left_join(KobeBryant, LebronJames, by = 'Age')
 ```
+We used a left join here to make it much easier to compare the players to one another.
 
 
 ### General Data Wrangling
 ```{r}
-AllPlayers%>%
-  select(`Age`,`3P.x`,`2P.x`,`AST.x`,`3P.y`,`2P.y`,`AST.y`)
+BothPlayers[2:18,] %>%
+  select(`Age`,`3P%.x`,`2P%.x`,`PTS.x`,`3P%.y`,`2P%.y`,`PTS.y`)
 ```
-
+Using the select variable allows us to see how efficient each player was at scoring. We can see that Kobe (VAR.x) shot under 50% for 2 pointers through all of his career except for 1 year. LeBron has consistently shot over 50% for 2 pointers through all of his career except his first 2 years.
 
 ### Regular Expression
 ```{r}
-AllPlayers %>% 
+BothPlayers %>% 
   filter(grepl("19", Age, ignore.case = TRUE)) 
 ```
+From this row in the table, we can see that both players had very similar stats, but LeBron averaged about 5 more points per game, while Kobe shot around 2% better.
 
-
-###Reduction/Transformation Function
-
+### Reduction/Transformation Function
 ```{r}
-AllPlayers %>% 
+BothPlayers %>% 
   summarise(KobePoints = mean(PTS.x, na.rm = TRUE), 
             LebronPoints = mean(PTS.y, na.rm = TRUE))
 ```
+The mean function used here shows Kobe and LeBron's average points per game over their entire career, and LeBron obviously has him beat here.
 
-### Spread and gather expression
-
-
+### Machine Learning
 ```{r}
-mod1 <- party::ctree(
+PlayerTree <- party::ctree(
   Age >= "19" ~ PTS.x + PTS.y, 
-  data = AllPlayers)
-plot(mod1, type="simple")
-
-
-
-
-
-
+  data = BothPlayers[2:18,])
+plot(PlayerTree, type = "simple")
 ```
 
 
-### Data Visualization 1
+### Data Visualization 1/Multiple Aesthetics
 
+#### LeBron James
 ```{r}
-ggplot(data = AllPlayers, aes(x = Age, y = PTS.y, fill = AST.y)) +
-  geom_bar(stat='identity',position='stack', width=.9) 
+ggplot(data = BothPlayers, aes(x = Age, y = PTS.y, fill = AST.y)) +
+  geom_bar(stat ='identity', position = 'stack', width = .9) 
 ```
+#### Kobe Bryant
 ```{r}
-ggplot(data = AllPlayers, aes(x = Age, y = PTS.x, fill = AST.x)) +
-  geom_bar(stat='identity',position='stack', width=.9) 
+ggplot(data = BothPlayers, aes(x = Age, y = PTS.x, fill = AST.x)) +
+  geom_bar(stat = 'identity', position = 'stack', width = .9) 
 ```
+From looking at these bar graphs, it is noticeable that Kobe wasn't nearly as consistent as a scorer when compared to LeBron. LeBron has steadily been above 20 points per game his entire career, while Kobe has had some down years. We can also see that LeBron averaged about 4 more assists per game than Kobe.
 
-### Data Visualization 2
+### Data Visualization 2/Smoother Graphs
+
+#### LeBron James
 ```{r}
-ggplot(data = AllPlayers, aes(x = Age, y = PTS.x)) +
+ggplot(data = BothPlayers, aes(x = Age, y = PTS.y)) +
   geom_point() + 
   stat_smooth(method = loess) 
 ```
-
+#### Kobe Bryant
 ```{r}
-ggplot(data = AllPlayers, aes(x = Age, y = PTS.y)) +
+ggplot(data = BothPlayers, aes(x = Age, y = PTS.x)) +
   geom_point() + 
   stat_smooth(method = loess) 
 ```
+From looking at these smoother graphs, we can see that LeBron's graph has a clear bump to it. But when we look at Kobe's graph, we can see there was a higher point than LeBron's ever was, but the 'drop' occurs much sooner than LeBron.
 
-### Data Visualization 3
+### Data Visualization 3/Multiple Geoms
 
+#### LeBron James
 ```{r}
-AllPlayers %>%
+BothPlayers %>%
   ggplot(aes(x = Age, y = AST.y)) + 
   geom_line(aes(y = TRB.y), colour = "red") +
   geom_bar(stat ='identity', position ='stack', alpha = 0.5) +
   scale_y_continuous(sec.axis = sec_axis(~., name = "Rebounds"))
 ```
-
+#### Kobe Bryant
 ```{r}
-AllPlayers %>%
+BothPlayers %>%
   ggplot(aes(x = Age, y = AST.x)) + 
   geom_line(aes(y = TRB.x), colour = "red") +
   geom_bar(stat ='identity', position ='stack', alpha = 0.5) +
   scale_y_continuous(sec.axis = sec_axis(~., name = "Rebounds"))
 ```
+When first looking at these graphs, they may seem similar. But seem you look at the axis' for both graphs, it's clear that LeBron averaged more assists AND rebounds than Kobe ever did.
 
-
+### Conclusion
+I know that numbers don't mean everything when it comes to answering a question, but it sure does mean a lot. For basically every table and graph created, LeBron seems to have a clear lead over Kobe. There are other factors for sure, but numbers don't lie. It seems that LeBron was better than Kobe between the ages of 19 and 35.
 
