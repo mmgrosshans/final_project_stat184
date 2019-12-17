@@ -71,11 +71,27 @@ AllPlayers%>%
 AllPlayers %>% 
   filter(grepl("19", Age, ignore.case = TRUE)) 
 ```
+
 ```{r}
 AllPlayers %>% 
   summarise(KobePoints = mean(PTS.x, na.rm = TRUE), 
             LebronPoints = mean(PTS.y, na.rm = TRUE))
 ```
+### Spread and gather expression
+
+```{r}
+AllPlayers <- 
+  ctree( == "yes" ~ age + income + sex, data=AllPlayers)
+
+
+
+
+
+
+```
+
+
+
 
 ### Data Visualization 1
 
