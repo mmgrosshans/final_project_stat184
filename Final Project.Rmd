@@ -49,7 +49,7 @@ LebronJames
 ```{r}
 AllPlayers <-
   left_join(KobeBryant, LebronJames, by='Age') 
-                
+AllPlayers                
 
 
 # used left join to combine all 2 data tables together
@@ -73,7 +73,11 @@ AllPlayers%>%
 
 
 ```
-
+```{r}
+AllPlayers %>% 
+  summarise(KobePoints = mean(PTS.x, na.rm = TRUE), 
+            LebronPoints = mean(PTS.y, na.rm = TRUE))
+```
 
 ### Data Visualization 1
 
